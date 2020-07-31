@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">TimeKeeping</string>
+    <string name="time_keeping_status_ok">Đã chấm công!</string>
+    <string name="time_keeping_status_late">Chấm công muộn!</string>
+    <string name="day_of_week_prefix">T</string>
+    <string name="sunday">CN</string>
+    <string name="today">Today</string>
+    <string name="search_hint">Tìm kiếm</string>
+    <string name="no_data_alert">Không có dữ liệu!</string>
+    <string name="ma_nhan_vien">MNV: </string>
+    <string name="vi_tri">Vị trí: </string>
+    <string name="scanning_alert">Vui lòng căn chỉnh camera đến trước mã QR</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="scan_finish_text">QUÉT THÀNH CÔNG!</string>
+    <string name="note_for_user">Bạn đã được ghi nhận bắt đầu chấm công! \n Thời gian bắt đầu chấm công 8h30 thứ 5 28/07/2020</string>
+    <string name="ok">OK</string>
+    <string name="ngay_sinh">Ngày sinh: </string>
+    <string name="name_prefix">Họ và tên:</string>
+    <string name="ma_nhan_vien_full">Mã nhân viên:</string>
+    <string name="all_done">All done!</string>
+
+
+    <string name="staff_not_exists">Nhân viên không tồn tại!</string>
+    <string name="has_timekeeping">Nhân viên này đã chấm công hôm nay rồi!</string>
+    <string name="access_permissin_retry">Please access permission!</string>
+    <string name="welcome_alert">initialization demo data ...</string>
+    <string name="wait_alert">Please wait ...</string>
+    <string name="cancel">Cancel</string>
+</resources>

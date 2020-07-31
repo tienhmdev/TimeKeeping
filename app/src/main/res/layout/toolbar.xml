@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+    android:id="@+id/toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/edtSearch"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="@drawable/dr_search_style"
+                android:hint="@string/search_hint"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/qrScan"
+                android:layout_toLeftOf="@id/qrScan"
+                android:layout_height="match_parent"/>
+
+
+            <ImageView
+                android:id="@+id/qrScan"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/qrscan" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.Toolbar>
