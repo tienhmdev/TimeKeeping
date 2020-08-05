@@ -31,14 +31,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
 
-            <TextView
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:text="@string/note_for_user" />
+                android:layout_marginBottom="20dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/note_for_user" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/note_for_user_1" />
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_margin="5dp"

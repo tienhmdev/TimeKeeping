@@ -138,14 +138,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i <= 5; i++){
             String dayOfWeek = getResources().getString(R.string.day_of_week_prefix) + calendar.get(Calendar.DAY_OF_WEEK);
             if (i == 0){
-                if (calendar.get(Calendar.DAY_OF_WEEK) == 0){
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
                     dayOfWeek = getResources().getString(R.string.sunday);
                 }
                 tabLayout.getTabAt(0).setText(getResources().getString(R.string.today) + "(" + dayOfWeek + ")");
             }else{
                 calendar.add(Calendar.DAY_OF_WEEK, -1);
                 dayOfWeek = getResources().getString(R.string.day_of_week_prefix) + calendar.get(Calendar.DAY_OF_WEEK);
-                if (calendar.get(Calendar.DAY_OF_WEEK) == 0){
+                if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
                     dayOfWeek = getResources().getString(R.string.sunday);
                 }
                 tabLayout.getTabAt(i).setText(dayOfWeek);

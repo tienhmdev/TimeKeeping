@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import hvcg.edu.timekeeping.R;
 import hvcg.edu.timekeeping.entities.Staff;
 
@@ -15,6 +18,7 @@ public class StaffInfoActivity extends AppCompatActivity implements View.OnClick
     private TextView tvName;
     private TextView tvNgaySinh;
     private TextView tvViTri;
+    private TextView tvTime;
     private Button btnFinish;
 
     private Staff staff;
@@ -36,6 +40,9 @@ public class StaffInfoActivity extends AppCompatActivity implements View.OnClick
         tvStaffId.setText(this.staff.getMaNhanVien());
         tvNgaySinh.setText(this.staff.getNgaySinh());
         tvViTri.setText(this.staff.getViTri());
+        this.staff.setDate(new Date());
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        tvTime.setText(df.format(this.staff.getDate()));
     }
 
     private void getData() {
@@ -53,6 +60,7 @@ public class StaffInfoActivity extends AppCompatActivity implements View.OnClick
         tvNgaySinh = findViewById(R.id.tvNgaySinh);
         tvViTri = findViewById(R.id.tvViTri);
         btnFinish = findViewById(R.id.btnFinish);
+        tvTime = findViewById(R.id.tvTime);
     }
 
     @Override

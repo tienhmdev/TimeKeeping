@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,9 @@ import hvcg.edu.timekeeping.R;
 import hvcg.edu.timekeeping.entities.Staff;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
+    public static final int TIME_TO_LATE = 8;
+
+
     private Context context;
     private List<Staff> staffs;
     private int layout;
@@ -63,18 +67,22 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     private void setStatus(ViewHolder holder, Staff staff) {
+//        Date date = new Date();
         Date date = staff.getDate();
         SimpleDateFormat simpleDateFormatArrivals = new SimpleDateFormat("HH", Locale.UK);
         String hour = simpleDateFormatArrivals.format(date);
-        Log.d("testDate", "value: " + date.toString());
-        Log.d("testDate", "value: " + hour);
 
-        if (Integer.parseInt(hour) <= 8){
+//        Log.d("testDate1", "value: " + ts.format(date));
+//        Log.d("testDate1", "value: " + hour);
+
+        if (Integer.parseInt(hour) <= TIME_TO_LATE){
             Glide.with(context).load(R.drawable.icon_ok_30).into(holder.imvStatus);
             holder.tvStatus.setText(R.string.time_keeping_status_ok);
+            holder.llAvatar.setBackgroundResource(R.drawable.bg_avt_ok);
         }else {
             Glide.with(context).load(R.drawable.icon_cancel_30).into(holder.imvStatus);
             holder.tvStatus.setText(R.string.time_keeping_status_late);
+            holder.llAvatar.setBackgroundResource(R.drawable.bg_avt_late);
         }
     }
 
@@ -93,6 +101,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         private TextView tvStatus;
         private ImageView imvStatus;
         private ImageView imvAvatar;
+        private LinearLayout llAvatar;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -102,6 +111,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             tvStatus = itemView.findViewById(R.id.tvStatus);
             imvStatus = itemView.findViewById(R.id.imvStatus);
             imvAvatar = itemView.findViewById(R.id.imvAvatar);
+            llAvatar = itemView.findViewById(R.id.llAvatar);
         }
     }
 }

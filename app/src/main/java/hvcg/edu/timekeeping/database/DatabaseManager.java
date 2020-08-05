@@ -37,7 +37,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public List<Staff> getUsersByDate(Date date){
         SQLiteDatabase database = getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_STAFF_NAME + " LEFT JOIN " + TABLE_TIMEKEEPING_NAME + " ON " + TABLE_STAFF_NAME + ".manhanvien = " + TABLE_TIMEKEEPING_NAME + ".manhanvien WHERE strftime('%d', " + TABLE_TIMEKEEPING_NAME + ".timekeeping) = '" + date.getDate() + "' ORDER BY " + TABLE_TIMEKEEPING_NAME + ".timekeeping DESC", null);
+        SimpleDateFormat fm24 = new SimpleDateFormat("dd");
+        String fm24hStr = fm24.format(date);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_STAFF_NAME + " LEFT JOIN " + TABLE_TIMEKEEPING_NAME + " ON " + TABLE_STAFF_NAME + ".manhanvien = " + TABLE_TIMEKEEPING_NAME + ".manhanvien WHERE strftime('%d', " + TABLE_TIMEKEEPING_NAME + ".timekeeping) = '" + fm24hStr + "' ORDER BY " + TABLE_TIMEKEEPING_NAME + ".timekeeping DESC", null);
         List<Staff> staffs = new ArrayList<>();
         while (cursor.moveToNext()){
             Staff staff = convertCursorToStaff(cursor);
@@ -66,7 +68,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public void timeKeepingNow(String mnv){
         SQLiteDatabase database = getWritableDatabase();
-        database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, '" + mnv + "', DATETIME())");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time24hFmStr = df.format(new Date());
+        database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, '" + mnv + "', '" + time24hFmStr + "')");
     }
 
     public boolean isStaffExists(String mnv){
@@ -136,53 +140,85 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             //Create demo timeKeeping data
             //30/07/2020
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-07-30 10:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-07-30 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-07-30 10:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-07-30 05:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-07-30 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-07-30 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-07-30 11:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-07-30 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-07-30 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-07-30 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-07-30 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-07-30 08:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-07-30 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-07-30 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-07-30 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-08-01 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-08-01 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-08-01 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-08-01 05:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-08-01 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-08-01 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-08-01 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-08-01 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-08-01 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-08-01 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-08-01 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-08-01 08:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-08-01 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-08-01 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-08-01 11:00:00')");
             //29/07/2020
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-07-29 10:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-07-29 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-07-29 10:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-07-29 05:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-07-29 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-07-29 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-07-29 11:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-07-29 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-07-29 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-07-29 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-07-29 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-07-29 08:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-07-29 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-07-29 09:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-07-29 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-08-02 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-08-02 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-08-02 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-08-02 05:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-08-02 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-08-02 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-08-02 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-08-02 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-08-02 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-08-02 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-08-02 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-08-02 08:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-08-02 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-08-02 09:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-08-02 11:00:00')");
             //28/07/2020
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-07-28 10:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-07-28 05:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-07-28 11:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-07-28 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-07-28 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-07-28 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-07-28 08:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-07-28 07:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-07-28 06:00:00')");
-            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-07-28 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-08-03 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-08-03 05:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-08-03 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-08-03 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-08-03 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-08-03 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-08-03 08:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-08-03 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-08-03 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-08-03 06:00:00')");
+
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-08-04 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-08-04 05:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-08-04 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-08-04 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-08-04 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-08-04 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-08-04 08:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-08-04 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-08-04 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-08-04 06:00:00')");
+
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG001', '2020-08-05 10:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG002', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG003', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG004', '2020-08-05 05:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG005', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG006', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG007', '2020-08-05 11:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG008', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG009', '2020-08-05 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG010', '2020-08-05 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG011', '2020-08-05 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG012', '2020-08-05 08:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG013', '2020-08-05 07:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG014', '2020-08-05 06:00:00')");
+            database.execSQL("INSERT INTO " + TABLE_TIMEKEEPING_NAME + " VALUES(null, 'HVCG015', '2020-08-05 06:00:00')");
             return true;
         }catch (Exception e){
             e.printStackTrace();
